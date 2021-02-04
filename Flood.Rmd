@@ -1,0 +1,122 @@
+---
+title: "Flood"
+author: "Zukhrusa"
+date: "24/01/2021"
+output: html_document
+---
+
+Research question:
+
+Predict the risk/likelihood of flooding in a certain postcode
+
+Predict the risk/likelihood of flooding in a certain postcode based on elevation
+
+Predict the risk/likelihood of flooding based on elevation (Elevation in metres above sea level)
+
+
+```{r}
+library(ggplot2)
+library(corrplot)
+library(ggpubr)
+```
+
+
+```{r}
+Elevation.data <- read.csv("C:/Users/zukhr/OneDrive/Documents/open_postcode_elevation.csv", header = TRUE, sep = ",")
+
+FloodRisk.data <- read.csv("C:/Users/zukhr/OneDrive/Documents/open_flood_risk_by_postcode.csv", header = TRUE, sep = ",")
+```
+
+```{r}
+str(Elevation.data)
+```
+
+```{r}
+str(FloodRisk.data)
+```
+
+
+```{r}
+newElevationRow <- c("AB10 1AB", 20)
+Elev.data <- rbind(newElevationRow, Elevation.data)
+```
+
+```{r}
+colnames(Elev.data)  <- c("Postcode", "Elevation")
+```
+
+```{r}
+newFloodRow <- c("TR23 0PR", "\\N",	"None",	"\\N",	"\\N",	"\\N",	87897, 15021, 49.953605, -6.352647)
+Flood.data <- rbind(newFloodRow, FloodRisk.data)
+```
+
+```{r}
+colnames(Flood.data)  <- c("Postcode", "fID", "prob_4band", "suitability", "pub_date", "risk_for_insurance_sop", "easting", "northing", "latitude", "longitude")
+```
+
+```{r}
+Flood <- merge(Elev.data, Flood.data, by = "Postcode")
+```
+
+```{r}
+str(Flood)
+```
+
+```{r}
+Flood$Elevation <- as.integer(Flood$Elevation)
+Flood$easting <- as.integer(Flood$easting)
+Flood$northing <- as.integer(Flood$northing)
+Flood$latitude <- as.integer(Flood$latitude)
+Flood$longitude <- as.integer(Flood$longitude)
+```
+
+```{r}
+save(Flood, file = "Flood.rda")
+```
+
+```{r}
+str(Flood)
+```
+
+```{r}
+summary(Flood)
+```
+
+```{r}
+ggplot(Flood) + geom_bar(aes(x = prob_4band)) + xlab("Likelihood of flooding") + labs(title = "Likelihood of flooding")
+```
+
+```{r}
+hist(Flood$easting, col = "#006e78")
+```
+
+```{r}
+hist(Flood$Elevation, col = "#006e78")
+```
+
+```{r}
+hist(Flood$northing, col = "#006e78")
+```
+
+
+```{r}
+ggboxplot(Flood$latitude, ylab = "latitude", fill = "#006e78", xlab = FALSE, title = "Boxplot of latitude")
+```
+
+
+```{r}
+ggboxplot(Flood$longitude, ylab = "longitude", fill = "#006e78", xlab = FALSE, title = "Boxplot of longitude")
+```
+
+```{r}
+correlations <- cor(Flood[c(2, 8, 9, 10, 11)])
+correlations
+```
+
+```{r}
+corrplot(correlations, method = "circle")
+```
+
+
+
+
