@@ -1,0 +1,91 @@
+---
+title: "ML Group 15"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+
+```{r echo = FALSE, message = FALSE}
+# in this chunk of R code, we will be loading all necessary libraries
+library(dplyr)
+```
+
+
+```{r echo = FALSE, message = FALSE}
+# clean environment if necessary
+# rm(list = ls())
+
+# load csv files locally, to do: alternate to load from github
+# accidents.df <- read.csv("Accidents0515.csv", header = TRUE, stringsAsFactors = FALSE)
+# casualties.df <- read.csv("Casualties0515.csv", header = TRUE, stringsAsFactors = FALSE)
+# vehicles.df <- read.csv("Vehicles0515.csv", header = TRUE, stringsAsFactors = FALSE)
+```
+
+```{r echo = FALSE, message = FALSE}
+# check number of rows for each to plan merging
+# nrow(accidents.df)
+# nrow(casualties.df)
+# nrow(vehicles.df)
+```
+
+```{r echo = FALSE, message = FALSE}
+# In this case, we have different row numbers. This is due to the fact that casualties tables might have more than one row per each accident and more than one vehicle per accident. Thus, we will start by joining accidents and casualties by using left join on casualties
+
+# merge datasets by cAccident Index using left_join
+# lj_data <- left_join(casualties.df, accidents.df, by = "ï..Accident_Index")
+```
+
+```{r echo = FALSE, message = FALSE}
+# clean data from empty rows in both datasets to merge
+# accCas.data <- subset(lj_data, ï..Accident_Index != "-1" & nchar(lj_data$ï..Accident_Index) >= 12)
+# vehicles.data <- subset(vehicles.df, ï..Accident_Index != "-1" & nchar(lj_data$ï..Accident_Index) >= 12)
+```
+
+```{r echo = FALSE, message = FALSE}
+# full join to include all rows from each data
+# my.accidents.df <- full_join(accCas.data, vehicles.data, by = c("ï..Accident_Index"))
+# save(my.accidents.df, file = "accidents.RData")
+```
+
+# 1. Data Quality Analysis
+
+## 1.1 Data Quality pplan
+
+## 1.2 Data Quality Check
+
+```{r}
+
+```
+
+
+# 2. Data Cleaning
+
+```{r}
+
+```
+
+# 3. Exploratory Data Analysis
+
+## 3.1 EDA plan
+
+## 3.2 Summary of results
+
+```{r}
+
+```
+
+# 4. Machine Learning Algorithm
+
+# 5. Model Evaluation
+
+# 6. HPC execution
+
+# 7. Results and Discussions
